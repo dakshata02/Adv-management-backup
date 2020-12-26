@@ -1,10 +1,10 @@
-package com.capgemini.advertisement.advertisementmanagementsystemrest;
+package com.capgemini.advertisement.adv.rest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AdvertisementManagementSystemRestApplicationTests {
+class AdvRestApplicationTests {
 
 	@Test
 	void contextLoads() {

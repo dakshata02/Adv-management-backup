@@ -91,7 +91,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.capgemini.advertisement.advertisementmanagementsystemrest.AdvertisementManagementSystemRestApplication</mainClass>
+                            <mainClass>com.capgemini.advertisement.adv.rest.AdvRestApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

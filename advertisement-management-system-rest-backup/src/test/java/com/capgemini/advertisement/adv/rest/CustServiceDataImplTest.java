@@ -1,10 +1,15 @@
-package com.capgemini.advertisement.advertisementmanagementsystemrest;
+package com.capgemini.advertisement.adv.rest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.util.Arrays;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,25 +21,15 @@ import com.capgemini.advertisement.dao.CustomerSpringDataDAO;
 import com.capgemini.advertisement.entity.CustomerMaster;
 import com.capgemini.advertisement.exception.CustomerException;
 import com.capgemini.advertisement.service.CustomerServiceSpringDataImpl;
-import static org.mockito.Mockito.verify;
-import static java.util.Arrays.asList;
-import static org.mockito.Mockito.times;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.mockito.BDDMockito.given;
-import static org.mockito.ArgumentMatchers.any;
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-class CustomerServiceSpringDataImplTest {
+class CustServiceDataImplTest {
 	@Mock
 	private CustomerSpringDataDAO customerSpringDataDao;
-	
+
 	@InjectMocks
 	private CustomerServiceSpringDataImpl customerService;
-	
+
 
 	@Test
 	void testAddCustomer() throws CustomerException {
@@ -45,7 +40,7 @@ class CustomerServiceSpringDataImplTest {
 		customerMaster.setCustEmail("virat@gmail.com");
 		customerMaster.setCustMobile("8798451232");
 		customerMaster.setCustPassword("virat@123");
-		
+
 		given(customerSpringDataDao.save(customerMaster)).willReturn(customerMaster);
 		Integer savedCustomer=customerService.addCustomer(customerMaster);
 		Assertions.assertThat(savedCustomer).isNotNull();
@@ -64,7 +59,7 @@ class CustomerServiceSpringDataImplTest {
 		given(customerSpringDataDao.findById(1)).willReturn(Optional.of(customerMaster));
 		CustomerMaster getCustomerId= customerService.getCustomerById(1);
 		Assertions.assertThat(getCustomerId).isNotNull();
-		
+
 	}
 
 	@Test
@@ -86,7 +81,7 @@ class CustomerServiceSpringDataImplTest {
 		customerMaster.setCustMobile("8798451232");
 		customerMaster.setCustPassword("virat@123");
 		customerList.add(customerMaster);
-		 given(customerSpringDataDao.findAll()).willReturn(customerList);
+		given(customerSpringDataDao.findAll()).willReturn(customerList);
 		List<CustomerMaster> custList=customerService.getAllCustomer();
 		Assertions.assertThat(custList).isEqualTo(customerList);
 	}
@@ -102,9 +97,9 @@ class CustomerServiceSpringDataImplTest {
 		customerMaster.setCustPassword("virat@123");
 		given(customerSpringDataDao.save(customerMaster)).willReturn(customerMaster);
 		CustomerMaster expectedCustomer=customerService.updateCustomer(customerMaster);
-Assertions.assertThat(expectedCustomer).isNotNull();
-	    
-	    verify(customerSpringDataDao).save(any(CustomerMaster.class));
+		Assertions.assertThat(expectedCustomer).isNotNull();
+
+		verify(customerSpringDataDao).save(any(CustomerMaster.class));
 	}
 
 }

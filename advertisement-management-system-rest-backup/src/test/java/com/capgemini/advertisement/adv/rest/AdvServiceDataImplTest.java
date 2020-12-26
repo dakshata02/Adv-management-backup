@@ -1,4 +1,4 @@
-package com.capgemini.advertisement.advertisementmanagementsystemrest;
+package com.capgemini.advertisement.adv.rest;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
@@ -27,7 +27,7 @@ import com.capgemini.advertisement.service.AdvertisementServiceSpringDataImpl;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-class AdvertisementServiceDataImplTest {
+class AdvServiceDataImplTest {
 
 	@Mock
 	private AdvertisementDetailSpringDataDAO advertisementSpringDataDAO;
