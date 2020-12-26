@@ -5,8 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.capgemini.advertisement.advertisementmanagementsystemrest.AdvertisementManagementSystemRestApplication;
-
 @SpringBootApplication(scanBasePackages = "com.capgemini.advertisement")
 @EntityScan(basePackages = "com.capgemini.advertisement.entity")
 @EnableJpaRepositories(basePackages = "com.capgemini.advertisement.dao")
