@@ -1,20 +1,24 @@
 package com.capgemini.advertisement.entity;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity
 public class StaffLogin {
-	@Id
-	private String email;
-	private String pass;
-	private String role;
-
+   
+   // @NotNull(message="email must not be empty")
+    private Integer staffId;
+   // @NotEmpty(message="Password must not be empty")
+    private String password;
+	public Integer getStaffId() {
+		return staffId;
+	}
+	public void setStaffId(Integer staffId) {
+		this.staffId = staffId;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+   
+   
 }
+ 

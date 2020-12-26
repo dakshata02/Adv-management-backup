@@ -7,40 +7,38 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
 import com.capgemini.advertisement.entity.LogOutPayload;
-import com.capgemini.advertisement.entity.StaffLogin;
+import com.capgemini.advertisement.entity.Login;
 import com.capgemini.advertisement.exception.BaseResponse;
-import com.capgemini.advertisement.service.StaffLoginService;
-
-
+import com.capgemini.advertisement.service.LoginService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
  * 
- * @author Sandhya and Shunottara
+ * @author Sandhya and Shweta
  *
  */
+
 @RestController
-@RequestMapping("/api/staffLogin")
-@Api(value = "Staff")
-public class StaffLoginController {
+
+@RequestMapping("/api/customerLogin")
+@Api(value = "CustomerMaster")
+public class LoginController {
 
 
 
 	@Autowired 
-	private StaffLoginService staffLoginService;
+	private LoginService loginService;
 
 
 
 
-	@PostMapping("/login")
+	@PostMapping("/custlogin") 
 	@ApiOperation(value = "SignIn")
-	public ResponseEntity<?> signIn( @RequestBody StaffLogin staff) {
-		String str = staffLoginService.signIn(staff);
+	public ResponseEntity<?> signIn( @RequestBody Login customerMaster) {
+		String str = loginService.signIn(customerMaster);
 		BaseResponse baseResponse = new BaseResponse();
 		baseResponse.setStatusCode(1);
 		baseResponse.setResponse(str);
@@ -49,10 +47,10 @@ public class StaffLoginController {
 
 
 
-	@PostMapping("/logout") 
+	@PostMapping("/custlogout") 
 	@ApiOperation(value = "SignOut")
-	public ResponseEntity<?> signOut( @RequestBody LogOutPayload staff) {
-		String str = staffLoginService.signOut(staff);
+	public ResponseEntity<?> signOut( @RequestBody LogOutPayload customerMaster) {
+		String str = loginService.signOut(customerMaster);
 		BaseResponse baseResponse = new BaseResponse();
 		baseResponse.setStatusCode(1);
 		baseResponse.setResponse(str);
@@ -61,10 +59,10 @@ public class StaffLoginController {
 
 
 
-	@PostMapping("/reset")
+	@PostMapping("/custreset")
 	@ApiOperation(value = "Reset Password")
-	public ResponseEntity<?> changePassword( @RequestBody StaffLogin staff, String new_password) {
-		String str =staffLoginService.changePassword(staff, new_password);
+	public ResponseEntity<?> changePassword( @RequestBody Login customerMaster, String new_password) {
+		String str =loginService.changePassword(customerMaster, new_password);
 		BaseResponse baseResponse = new BaseResponse();
 		baseResponse.setStatusCode(1);
 		baseResponse.setResponse(str);

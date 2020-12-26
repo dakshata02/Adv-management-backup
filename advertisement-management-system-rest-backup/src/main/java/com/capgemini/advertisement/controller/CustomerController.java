@@ -2,6 +2,8 @@ package com.capgemini.advertisement.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,113 +24,111 @@ import com.capgemini.advertisement.service.CustomerService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ * @author Shweta and Ashwini
+ *
+ */
 @RestController
-@RequestMapping("/api/customer")
+@RequestMapping("/api/customers")
 @Slf4j
-public class CustomerController {
-	@Autowired
+public class CustomerController{
+	@Autowired(required = false)
 	private CustomerService customerService;
-	
 
-	//get customer by Id
-	//http://localhost:8081/api/customer/1
-	@ApiOperation(value = "Get customer by Id",
-			response = CustomerMaster.class,tags="get-customer-by-id",
-			consumes="custId",
-			httpMethod = "GET")
+	//get product by Id
+	//http://localhost:8080/api/customers/1
+	@ApiOperation(value = "Get customer by Id",response = CustomerMaster.class,
+			tags="get-customer-by-id",consumes="custId",httpMethod = "GET")
 	@GetMapping("/{id}")
 	public ResponseEntity<CustomerMaster> getCustomerById(@PathVariable Integer id){
 		try {
 			CustomerMaster customer= customerService.getCustomerById(id);
 			log.info("Customer added"+ customer);
 			return new ResponseEntity<>(customer,HttpStatus.OK);
-		}catch(CustomerException e) {
-			log.error(e.getMessage());
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+		}catch(CustomerException customerException) {
+			log.error(customerException.getMessage());
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,customerException.getMessage());
 		}
 	}
 
-	//get all customer
-	//http://localhost:8081/api/customer/
-	@ApiOperation(value = "Get all customer",
-			response = CustomerMaster.class,
-			tags="get-all-customer",
-			httpMethod = "GET")
+	//get all products-
+	//http://localhost:8080/api/customers/
+	@ApiOperation(value = "Get all customer",response = CustomerMaster.class,
+			tags="get-all-customer",httpMethod = "GET")
 	@GetMapping("/")
 	public ResponseEntity<List<CustomerMaster>> getAllCustomer(){
 		try {
 			List<CustomerMaster> customerList = customerService.getAllCustomer();
 			log.info("Returning all customer details");
 			return new ResponseEntity<>(customerList,HttpStatus.OK);
-		}catch(CustomerException e) {
-			log.error(e.getMessage());
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+		}catch(CustomerException customerException) {
+			log.error(customerException.getMessage());
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,customerException.getMessage());
 		}
 	}
 
-	//http://localhost:8081/api/customer/
-	//add customer   
+	//http://localhost:8081/api/customers/
+	//add product
 	@ApiOperation(value = "Add Customer",
 			consumes = "receives Customer object as request body",
 			response =String.class)
 	@PostMapping("/")
-	public String addCustomer(@RequestBody CustomerMaster customer) {
+	public String addCustomer(@Valid @RequestBody CustomerMaster customer) {
 		try {
 			Integer status= customerService.addCustomer(customer);
 			if(status ==1) {
-				log.info("Customer:"+customer.getCustFirstName()+" added to database");
-				return "Customer:"+customer.getCustFirstName()+" added to database";
+				log.info("customer:"+customer.getCustFirstName()+" added to database");
+				return "customer:"+customer.getCustFirstName()+" added to database";
 			}else {
 				log.debug("Unable to add customer");
 				return "Unable to add customer to database";
 			}
 
-		}catch(CustomerException e) {
-			log.error(e.getMessage());
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+		}catch(CustomerException customerException) {
+			log.error(customerException.getMessage());
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,customerException.getMessage());
 		}
 	}
 
 	//http://localhost:8081/api/customer/1
-	//delete customer
+	//delete product
 	@ApiOperation(value = "Delete Customer",
-			consumes = "customerId",
+			consumes = "custId",
 			response =String.class)
 	@DeleteMapping("/{id}")
 	public String deleteCustomer(@PathVariable Integer id) {
 		try {
 			Integer status= customerService.deleteCustomer(id);
 			if(status ==1) {
-				log.info("Customer: "+id+" deleted from database");
-				return "Customer: "+id+" deleted from database";
+				log.info("customer: "+id+" deleted from database");
+				return "customer: "+id+" deleted from database";
 			}else {
-				log.debug("Unable to delete Customer from database");
-				return "Unable to delete Customer from database";
+				log.debug("Unable to delete customer from database");
+				return "Unable to delete customer from database";
 			}
 
-		}catch(CustomerException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+		}catch(CustomerException customerException) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,customerException.getMessage());
 		}
 	}
 
 	//http://localhost:8081/api/customer/
-	//update customer
-	@PutMapping("/")
+	//update product
 	@ApiOperation(value = "Update Customer",
-	consumes = "receives Customer object as request body",
-	response =CustomerMaster.class)
-	public ResponseEntity<CustomerMaster> updateCustomer(@RequestBody CustomerMaster customer) {
+			consumes = "receives Customer object as request body",
+			response =CustomerMaster.class)
+	@PutMapping("/")
+	public ResponseEntity<CustomerMaster> updateCustomer(@RequestBody CustomerMaster customerMaster) {
 		try {
-			CustomerMaster updatedCustomer= customerService.updateCustomer(customer);
-			log.info("Customer: "+ customer.getCustId()+ " updated");
+			CustomerMaster updatedCustomer= customerService.updateCustomer(customerMaster);
+			log.info("Product: "+ customerMaster.getCustId()+ " updated");
 			return new ResponseEntity<>(updatedCustomer,HttpStatus.OK);
 
-		}catch(CustomerException e) {
-			log.error(e.getMessage());
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+		}catch(CustomerException customerException) {
+			log.error(customerException.getMessage());
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,customerException.getMessage());
 		}
 	}
-
-
 
 }

@@ -22,108 +22,104 @@ import com.capgemini.advertisement.service.AdvertisementService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ * @author Sapna and Dakshata
+ *
+ */
 @RestController
 @RequestMapping("/api/advertisement")
 @Slf4j
 public class AdvertisementController {
 	@Autowired
 	private AdvertisementService advertisementService;
-	
 
-	//get advertisement by Id
-	//http://localhost:8081/api/advertisement/1
-	@ApiOperation(value = "Get Advertisement by Id",response = AdvertisementDetails.class,tags="get-advertisement-by-id",consumes="advId",httpMethod = "GET")
+	@ApiOperation(value = "Get Advertisement by Id",
+			response = AdvertisementDetails.class,tags="get-advertisement-by-id",
+			consumes="id",httpMethod = "GET")
 	@GetMapping("/{id}")
 	public ResponseEntity<AdvertisementDetails> getAdvertisementById(@PathVariable Integer id){
 		try {
-			AdvertisementDetails advertisement= advertisementService.getAdvertisementById(id);
-			log.info("Advertisement added"+ advertisement);
-			return new ResponseEntity<>(advertisement,HttpStatus.OK);
-		}catch(AdvertisementException e) {
-			log.error(e.getMessage());
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+			AdvertisementDetails advertisements= advertisementService.getAdvertisementById(id);
+			log.info("Advertisement added"+ advertisements);
+			return new ResponseEntity<>(advertisements,HttpStatus.OK);
+		}catch(AdvertisementException advertisementException) {
+			log.error(advertisementException.getMessage());
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,advertisementException.getMessage());
 		}
 	}
-
-	//get all advertisement
-	//http://localhost:8081/api/advertisement/
-	@ApiOperation(value = "Get all Advertisement",response = AdvertisementDetails.class,tags="get-all-advertisement",httpMethod = "GET")
+	@ApiOperation(value = "Get All Advertisement",
+			response = AdvertisementDetails.class,tags="get-all-advertisement",
+			httpMethod = "GET")
 	@GetMapping("/")
-	public ResponseEntity<List<AdvertisementDetails>> getAllAdvertisement(){
+	public ResponseEntity<List<AdvertisementDetails>> getAllAdvertisements(){
 		try {
 			List<AdvertisementDetails> advertisementList = advertisementService.getAllAdvertisement();
-			log.info("Returning all Advertisement details");
+			log.info("Returning all customer details");
 			return new ResponseEntity<>(advertisementList,HttpStatus.OK);
-		}catch(AdvertisementException e) {
-			log.error(e.getMessage());
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+		}catch(AdvertisementException advertisementException) {
+			log.error(advertisementException.getMessage());
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,advertisementException.getMessage());
 		}
 	}
 
-	//http://localhost:8081/api/advertisement/
-	//add advertisement    
 	@ApiOperation(value = "Add Advertisement",
 			consumes = "receives Advertisement object as request body",
 			response =String.class)
-	@PostMapping("/{custId}/{staffId}")
-	public String addAdvertisement(@PathVariable Integer custId,@PathVariable Integer staffId,@RequestBody AdvertisementDetails advertisement) {
+	@PostMapping("/{cid}/{sid}")
+	public String addAdvertisements(@PathVariable Integer cid,@PathVariable Integer sid, @RequestBody AdvertisementDetails advertisements) {
 		try {
-			
-			Integer status= advertisementService.addAdvertisement(custId,staffId,advertisement);
+			Integer status= advertisementService.addAdvertisement(cid,sid,advertisements);
+
 			if(status ==1) {
-				log.info("Advertisement:"+advertisement.getId()+" added to database");
-				return "Advertisement:"+advertisement.getId()+" added to database";
+				log.info("advertisement:"+advertisements.getAdvType()+" added to database");
+				return "advertisement:"+advertisements.getAdvType()+" added to database";
 			}else {
-				log.debug("Unable to add Advertisement");
-				return "Unable to add Advertisement to database";
+				log.debug("Unable to add advertisement");
+				return "Unable to add advertisement to database";
 			}
 
-		}catch(AdvertisementException e) {
-			log.error(e.getMessage());
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+		}catch(AdvertisementException advertisementException) {
+			log.error(advertisementException.getMessage());
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,advertisementException.getMessage());
 		}
 	}
 
-	//http://localhost:8081/api/advertisement/1
-	//delete advertisement
 	@ApiOperation(value = "Delete Advertisement",
-			consumes = "advertisementId",
+			consumes = "id",
 			response =String.class)
 	@DeleteMapping("/{id}")
-	public String deleteAdvertisement(@PathVariable Integer id) {
+	public String deleteAdvertisements(@PathVariable Integer id) {
 		try {
 			Integer status= advertisementService.deleteAdvertisement(id);
 			if(status ==1) {
-				log.info("Advertisement: "+id+" deleted from database");
-				return "Advertisement: "+id+" deleted from database";
+				log.info("advertisement: "+id+" deleted from database");
+				return "advertisement: "+id+" deleted from database";
 			}else {
-				log.debug("Unable to delete Advertisement from database");
-				return "Unable to delete Advertisement from database";
+				log.debug("Unable to delete advertisement from database");
+				return "Unable to delete advertisement from database";
 			}
 
-		}catch(AdvertisementException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+		}catch(AdvertisementException advertisementException) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,advertisementException.getMessage());
 		}
 	}
-
-	//http://localhost:8081/api/advertisement/
-	//update advertisement
+	
 	@ApiOperation(value = "Update Advertisement",
 			consumes = "receives Advertisement object as request body",
 			response =AdvertisementDetails.class)
 	@PutMapping("/")
-	public ResponseEntity<AdvertisementDetails> updateAdvertisement(@RequestBody AdvertisementDetails advertisement) {
+	public ResponseEntity<AdvertisementDetails> updateAdvertisements(@RequestBody AdvertisementDetails advertisements) {
 		try {
-			AdvertisementDetails updatedAdvertisement= advertisementService.updateAdvertisement(advertisement);
-			log.info("Advertisement: "+ advertisement.getId()+ " updated");
+			AdvertisementDetails updatedAdvertisement= advertisementService.updateAdvertisement(advertisements);
+			log.info("Advertisement: "+ advertisements.getId()+ " updated");
 			return new ResponseEntity<>(updatedAdvertisement,HttpStatus.OK);
 
-		}catch(AdvertisementException e) {
-			log.error(e.getMessage());
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+		}catch(AdvertisementException advertisementException) {
+			log.error(advertisementException.getMessage());
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,advertisementException.getMessage());
 		}
 	}
-
-
-
 }
+
+

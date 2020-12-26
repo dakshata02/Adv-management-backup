@@ -2,7 +2,10 @@ package com.capgemini.advertisement.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,18 +25,24 @@ import com.capgemini.advertisement.service.StaffService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ * @author Shunottara and Samidha
+ *
+ */
 @RestController
 @RequestMapping("/api/staff")
 @Slf4j
 public class StaffController {
-	@Autowired
+	@Autowired(required=false)
 	private StaffService staffService;
 
-
 	//get staff by Id
-	//http://localhost:8081/api/staff/1
-	@ApiOperation(value = "Get staff by Id",response = Staff.class,tags="get-staff-by-id",consumes="staffId",httpMethod = "GET")
+	//http://localhost:8080/api/staff/1
+	@ApiOperation(value = "Get staff by Id",
+			response = Staff.class,tags="get-staff-by-id",consumes="staffId",httpMethod = "GET")
 	@GetMapping("/{id}")
+
 	public ResponseEntity<Staff> getStaffById(@PathVariable Integer id){
 		try {
 			Staff staff= staffService.getStaffById(id);
@@ -45,10 +54,13 @@ public class StaffController {
 		}
 	}
 
+
 	//get all staff
-	//http://localhost:8081/api/staff/
-	@ApiOperation(value = "Get all staff",response = Staff.class,tags="get-all-staff",httpMethod = "GET")
+	//http://localhost:8080/api/staff/
+	@ApiOperation(value = "Get all staff",
+			response = Staff.class,tags="get-all-staff",httpMethod = "GET")
 	@GetMapping("/")
+
 	public ResponseEntity<List<Staff>> getAllStaff(){
 		try {
 			List<Staff> staffList = staffService.getAllStaff();
@@ -60,13 +72,14 @@ public class StaffController {
 		}
 	}
 
-	//http://localhost:8081/api/staff/
-	//add staff    
+
+	//http://localhost:8080/api/staff/
+	//add staff  
 	@ApiOperation(value = "Add Staff",
 			consumes = "receives Staff object as request body",
 			response =String.class)
 	@PostMapping("/")
-	public String addStaff(@RequestBody Staff staff) {
+	public String addStaff(@Valid @RequestBody Staff staff) {
 		try {
 			Integer status= staffService.addStaff(staff);
 			if(status ==1) {
@@ -76,19 +89,20 @@ public class StaffController {
 				log.debug("Unable to add staff");
 				return "Unable to add staff to database";
 			}
-
 		}catch(StaffException e) {
 			log.error(e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
 		}
 	}
 
-	//http://localhost:8081/api/staff/1
+
+	//http://localhost:8080/api/staff/1
 	//delete staff
 	@ApiOperation(value = "Delete Staff",
 			consumes = "staffId",
 			response =String.class)
 	@DeleteMapping("/{id}")
+
 	public String deleteStaff(@PathVariable Integer id) {
 		try {
 			Integer status= staffService.deleteStaff(id);
@@ -99,13 +113,12 @@ public class StaffController {
 				log.debug("Unable to delete Staff from database");
 				return "Unable to delete Staff from database";
 			}
-
 		}catch(StaffException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
 		}
 	}
 
-	//http://localhost:8081/api/staff/
+	//http://localhost:8080/api/staff/
 	//update staff
 	@ApiOperation(value = "Update Staff",
 			consumes = "receives Staff object as request body",
@@ -122,7 +135,5 @@ public class StaffController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
 		}
 	}
-
-
 
 }
