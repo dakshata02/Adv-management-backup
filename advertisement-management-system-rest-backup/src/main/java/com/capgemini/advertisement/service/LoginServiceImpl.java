@@ -1,11 +1,12 @@
 package com.capgemini.advertisement.service;
+import static com.capgemini.advertisement.exception.AppConstants.OPERATION_FAILED;
+import static com.capgemini.advertisement.exception.AppConstants.USER_NOT_FOUND;
+import static com.capgemini.advertisement.exception.AppConstants.WRONG_PASSWORD;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-
-
-
 import org.springframework.stereotype.Service;
-
-
 
 import com.capgemini.advertisement.dao.LoginRepository;
 import com.capgemini.advertisement.entity.CustomerMaster;
@@ -13,11 +14,6 @@ import com.capgemini.advertisement.entity.LogOutPayload;
 import com.capgemini.advertisement.entity.Login;
 import com.capgemini.advertisement.exception.OperationFailedException;
 import com.capgemini.advertisement.exception.ResourceNotFound;
-import com.capgemini.advertisement.exception.ResourceNotFoundException;
-import static com.capgemini.advertisement.exception.AppConstants.OPERATION_FAILED;
-import static com.capgemini.advertisement.exception.AppConstants.USER_NOT_FOUND;
-import static com.capgemini.advertisement.exception.AppConstants.WRONG_PASSWORD;
-import java.util.Optional;
 
 
 /**
@@ -82,7 +78,7 @@ public class LoginServiceImpl implements LoginService {
 
 
 	@Override
-	public String changePassword(Login customerMaster, String new_password) {
+	public String changePassword(Login customerMaster, String newPassword) {
 		String str = null;
 		Optional<CustomerMaster> customerObj = loginRepository.findById(customerMaster.getCustId());
 		if (!customerObj.isPresent()) {
@@ -93,7 +89,7 @@ public class LoginServiceImpl implements LoginService {
 				throw new ResourceNotFound(WRONG_PASSWORD);
 			}
 			try {
-				customerObj.get().setCustPassword(new_password);
+				customerObj.get().setCustPassword(newPassword);
 				loginRepository.saveAndFlush(customerObj.get());
 				str = "Password changed sucessfully";
 			} catch (Exception e) {

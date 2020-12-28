@@ -26,7 +26,7 @@ public interface LoginService {
      * @return changed password
      */
 
-    public String changePassword(Login customerMaster, String new_password);
+    public String changePassword(Login customerMaster, String newPassword);
 
 
 }

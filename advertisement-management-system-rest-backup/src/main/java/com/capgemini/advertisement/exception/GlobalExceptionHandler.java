@@ -13,7 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<?> resourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
@@ -27,10 +27,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 	@Override
+	@ExceptionHandler(NullPointerException.class)
 	  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 	      HttpHeaders headers, HttpStatus status, WebRequest request) {
-	    ErrorDetails errorDetails = new ErrorDetails(new Date(),"Validation error",
-	        ex.getBindingResult().getFieldError().getDefaultMessage());
-	    return new ResponseEntity<Object>(errorDetails, HttpStatus.BAD_REQUEST);
+		
+		
+        ErrorDetails errorDetails = new ErrorDetails(new Date(),"Validation error",
+            ex.getBindingResult().getFieldError().getDefaultMessage());
+        return new ResponseEntity<Object>(errorDetails, HttpStatus.BAD_REQUEST);
+       
 	  } 
 }

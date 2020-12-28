@@ -31,7 +31,6 @@ public class RestResponseEntityExcep
             = { DataIntegrityViolationException.class })
     protected ResponseEntity<Object> handleAnotherConflict(
             Exception ex, WebRequest request) {
-        //String bodyOfResponse = "application-wide checked exception";
         String bodyOfResponse = ex.getMessage();
         return this.handleExceptionInternal(ex, bodyOfResponse, 
                 new HttpHeaders(), HttpStatus.CONFLICT, request);

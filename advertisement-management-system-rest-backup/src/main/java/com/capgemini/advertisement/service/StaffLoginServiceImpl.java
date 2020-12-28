@@ -1,11 +1,12 @@
 package com.capgemini.advertisement.service;
+import static com.capgemini.advertisement.exception.AppConstants.OPERATION_FAILED;
+import static com.capgemini.advertisement.exception.AppConstants.USER_NOT_FOUND;
+import static com.capgemini.advertisement.exception.AppConstants.WRONG_PASSWORD;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-
-
-
 import org.springframework.stereotype.Service;
-
-
 
 import com.capgemini.advertisement.dao.StaffLoginRepository;
 import com.capgemini.advertisement.entity.LogOutPayload;
@@ -13,11 +14,6 @@ import com.capgemini.advertisement.entity.Staff;
 import com.capgemini.advertisement.entity.StaffLogin;
 import com.capgemini.advertisement.exception.OperationFailedException;
 import com.capgemini.advertisement.exception.ResourceNotFound;
-import com.capgemini.advertisement.exception.ResourceNotFoundException;
-import static com.capgemini.advertisement.exception.AppConstants.OPERATION_FAILED;
-import static com.capgemini.advertisement.exception.AppConstants.USER_NOT_FOUND;
-import static com.capgemini.advertisement.exception.AppConstants.WRONG_PASSWORD;
-import java.util.Optional;
 
 /**
  * 
@@ -82,7 +78,7 @@ public class StaffLoginServiceImpl implements StaffLoginService {
 
 
 	@Override
-	public String changePassword(StaffLogin staff, String new_password) {
+	public String changePassword(StaffLogin staff, String newPassword) {
 		String str = null;
 		Optional<Staff> staffObj = staffLoginRepository.findById(staff.getStaffId());
 		if (!staffObj.isPresent()) {
@@ -93,7 +89,7 @@ public class StaffLoginServiceImpl implements StaffLoginService {
 				throw new ResourceNotFound(WRONG_PASSWORD);
 			}
 			try {
-				staffObj.get().setPassword(new_password);
+				staffObj.get().setPassword(newPassword);
 				staffLoginRepository.saveAndFlush(staffObj.get());
 				str = "Password changed sucessfully";
 			} catch (Exception e) {

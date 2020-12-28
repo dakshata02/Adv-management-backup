@@ -1,5 +1,4 @@
 package com.capgemini.advertisement.entity;
-//import javax.validation.constraints.NotEmpty;
 
  
 

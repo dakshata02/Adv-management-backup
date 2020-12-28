@@ -39,10 +39,17 @@ public class AdvertisementServiceImpl implements AdvertisementService{
 		try {
 
 
-			CustomerMaster cm=customerSpringDataDao.findById(cid).get();
-			advertisement.setCustomer(cm);
-			Staff staff=staffSpringDataDao.findById(sid).get();
-			advertisement.setStaff(staff);
+			Optional<CustomerMaster> optional=customerSpringDataDao.findById(cid);
+            if(optional.isPresent())
+            {
+                advertisement.setCustomer(optional.get());
+            }
+           
+            Optional<Staff> staff=staffSpringDataDao.findById(sid);
+            if(staff.isPresent())
+            {
+                advertisement.setStaff(staff.get());
+            }
 			AdvertisementDetails advertisements=
 					advertisementDetailSpringDataDaoImpl.save(advertisement);
 			System.out.println(advertisements);
