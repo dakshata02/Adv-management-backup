@@ -38,8 +38,10 @@ public class CustomerController{
 
 	//get product by Id
 	//http://localhost:8080/api/customers/1
-	@ApiOperation(value = "Get customer by Id",response = CustomerMaster.class,
-			tags="get-customer-by-id",consumes="custId",httpMethod = "GET")
+	@ApiOperation(value = "Get customer by Id",
+			response = CustomerMaster.class,
+			tags="get-customer-by-id",
+			consumes="custId",httpMethod = "GET")
 	@GetMapping("/{id}")
 	public ResponseEntity<CustomerMaster> getCustomerById(@PathVariable Integer id){
 		try {

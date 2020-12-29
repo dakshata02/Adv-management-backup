@@ -63,8 +63,8 @@ public class StaffLoginController {
 
 	@PostMapping("/reset")
 	@ApiOperation(value = "Reset Password")
-	public ResponseEntity<?> changePassword( @RequestBody StaffLogin staff, String new_password) {
-		String str =staffLoginService.changePassword(staff, new_password);
+	public ResponseEntity<?> changePassword( @RequestBody StaffLogin staff, String newPassword) {
+		String str =staffLoginService.changePassword(staff, newPassword);
 		BaseResponse baseResponse = new BaseResponse();
 		baseResponse.setStatusCode(1);
 		baseResponse.setResponse(str);

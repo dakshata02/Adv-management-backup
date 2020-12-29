@@ -59,15 +59,15 @@ public class LoginController {
 
 
 
-	@PostMapping("/custreset")
-	@ApiOperation(value = "Reset Password")
-	public ResponseEntity<?> changePassword( @RequestBody Login customerMaster, String new_password) {
-		String str =loginService.changePassword(customerMaster, new_password);
-		BaseResponse baseResponse = new BaseResponse();
-		baseResponse.setStatusCode(1);
-		baseResponse.setResponse(str);
-		return new ResponseEntity<>(baseResponse, HttpStatus.OK);
-	}
+//	@PostMapping("/custreset")
+//	@ApiOperation(value = "Reset Password")
+//	public ResponseEntity<?> changePassword( @RequestBody Login customerMaster, String newPassword) {
+//		String str =loginService.changePassword(customerMaster, newPassword);
+//		BaseResponse baseResponse = new BaseResponse();
+//		baseResponse.setStatusCode(1);
+//		baseResponse.setResponse(str);
+//		return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+//	}
 
 
 
